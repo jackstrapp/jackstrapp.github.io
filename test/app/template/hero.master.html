@@ -1,0 +1,36 @@
+
+<h2>My Heroes</h2>
+<div class="container-fluid">
+  <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6" style="overflow: auto;">
+    <div class="row pull-right" >
+      <button (click)="Add()"> ADD </button>
+      <button (click)="Update()" [disabled]="!selectedHero"> UPDATE </button>
+      <button (click)="Delete()" [disabled]="!selectedHero" > DELETE </button>
+    </div>
+    <div class="row">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th> id </th>
+            <th> name </th>
+          </tr>
+          <tr *ngFor="let hero of heroes;" class="clickable"
+          [ngClass]="{'active': selectedHero && selectedHero.id == hero.id}"
+          (click)="selectHero(hero);"
+          >
+            <td>
+              {{hero.id}}
+            </td>
+            <td>
+             {{hero.name}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6">
+    <hero-detail [hero]="toUpdateHero" (on-terminated)="myValueChange($event);"></hero-detail>
+  </div>
+</div>
