@@ -61,7 +61,7 @@ export class HeroMasterComponent {
     <label>name</label>
     <input name="name" required class="form-control" [(ngModel)]="hero.name" placeholder="name">
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" class="btn btn-success">Submit</button>
 </form>`
 
 })
