@@ -1,15 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Hero } from './app.model';
 import { HeroService } from './app.heroes.service';
+import { DBService } from './app.database.service';
 
 @Component({
   selector: 'hero-master',
-  providers: [HeroService],
+  providers: [HeroService, DBService],
   templateUrl: './app/template/hero.master.html',
   directives: [HeroDetailComponent]
 })
 export class HeroMasterComponent { 
-  heroes = new Array<Hero>();
+  heroes: Promise<Array<Hero>>;
   selectedHero: Hero = null;
   selectHero(hero: Hero){
     this.selectedHero = hero;
@@ -19,29 +20,32 @@ export class HeroMasterComponent {
   }
   Add(){
     var newHero = new Hero();
-    var maxId =  Math.max.apply( null, this.heroes.map(function ( item ) { return item.id; }));
-    
-    newHero.id = maxId + 1;
     newHero.name = 'nouveau Héro';
-    this.heroesService.addHero(newHero);
-    this.selectHero(newHero);
-    this.Update();
+    this.heroesService.addHero(newHero).then(() => {
+      this.loadData();
+      this.selectHero(newHero);
+      this.Update();
+    });
   }
   Delete(){
-    this.heroesService.deleteHero(this.selectedHero.id);
+    this.heroesService.deleteHero(this.selectedHero.id).then(() => {
+      this.selectedHero = null;
+      this.loadData();
+    });
   }
   
   
   myValueChange(event) {
-    this.heroesService.updateHero(event);
+    
+    this.heroesService.updateHero(event).then(() => {
+      this.loadData();
+    })
   }
   
   
   loadData(){
-    var self = this;
-    this.heroesService.getHeroes().subscribe( function(result){
-      self.heroes = result.json();
-    });
+    
+    this.heroes = this.heroesService.getHeroes();
   }
   
   constructor(public heroesService: HeroService){
@@ -61,7 +65,7 @@ export class HeroMasterComponent {
     <label>name</label>
     <input name="name" required class="form-control" [(ngModel)]="hero.name" placeholder="name">
   </div>
-  <button type="submit" class="btn btn-success">Submit</button>
+  <button type="submit" class="btn btn-default">Submit</button>
 </form>`
 
 })
