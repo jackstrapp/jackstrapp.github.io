@@ -1,0 +1,11 @@
+table.clickable-row tr{
+	cursor: pointer;
+}
+/*
+table.clickable-row tr:hover{
+	 background-color: #ccc !important;
+}*/
+
+table.clickable-row tr.selected{
+	background-color: #ccc !important;
+}
