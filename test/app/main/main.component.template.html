@@ -1,0 +1,46 @@
+<!-- <nav class="navbar navbar-dark bg-inverse navbar-static-top">
+	<a class="navbar-brand" href="#">Gestion compteurs</a>
+	<ul class="nav navbar-nav">
+		<li class="nav-item">
+			<a class="nav-link" routerLink="/Releves" routerLinkActive="active">Relevés</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" routerLink="/Compteurs" routerLinkActive="active">CRUD Compteurs</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a>
+		</li>
+	</ul>
+</nav> -->
+
+<nav class="navbar navbar-light bg-faded">
+	<a class="navbar-brand" href="#">Navbar</a>
+	<ul class="nav navbar-nav">
+		<li class="nav-item active">
+			<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" routerLink="/Releves" routerLinkActive="active">Relevés</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" routerLink="/Compteurs" routerLinkActive="active">CRUD Compteurs</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a>
+		</li>
+	</ul>
+	<form class="form-inline pull-xs-right">
+		<input class="form-control" type="text" placeholder="Search">
+		<button class="btn btn-outline-success" type="submit">Search</button>
+	</form>
+</nav>
+
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+	<div class="container">
+		<router-outlet></router-outlet>
+	</div>
+</div>
+
+

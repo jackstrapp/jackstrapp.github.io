@@ -30,6 +30,4 @@ import { RouterModule } from '@angular/router';
   //   <router-outlet></router-outlet>
   // `
 })
-
-// App Component class
 export class AppComponent {}

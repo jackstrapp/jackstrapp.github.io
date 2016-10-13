@@ -1,22 +1,26 @@
 import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
-import { HeroMasterComponent, HeroDetailComponent }   from './app.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+
+import {AppComponent} from './app.component';
+import { AppRoutingModule } from './app.routes';
+import {EmptyComponent} from './main/main.empty.component';
+
+import {DBService} from './model/database';
+import { CompteurService } from './Services/CompteurService';
+import { ReleveService } from './Services/ReleveService';
+import { Compteur } from './model/Compteur';
+import { Releve } from './model/Releve';
 
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpModule ],
-  declarations: [ HeroMasterComponent, HeroDetailComponent ],
-  bootstrap:    [ HeroMasterComponent ]
+	imports: [ BrowserModule, FormsModule, AppRoutingModule, NgbModule.forRoot() ],
+	declarations: [ AppComponent ],
+	providers: [ DBService, CompteurService, ReleveService ],
+	bootstrap: [ AppComponent ]
 })
 export class AppModule { }
-
-
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
