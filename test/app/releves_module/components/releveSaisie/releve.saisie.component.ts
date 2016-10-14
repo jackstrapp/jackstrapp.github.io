@@ -21,8 +21,6 @@ import { Component, OnInit, OnDestroy, HostBinding,
 		`
 		<h2> Détails de votre relevé </h2>
 		<form *ngIf="releve" (ngSubmit)="formSubmit()" >
-		{{_dateModel | json}} --- 
-		{{releve | json}}
 		<div class="form-group">
 		<label>idCompteur</label>
 		<select [(ngModel)]="releve.idCompteur" (ngModelChange)="onChangeObj($event)" name="compteur" class="form-control">
