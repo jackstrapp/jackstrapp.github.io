@@ -4,8 +4,15 @@ table.clickable-row tr{
 /*
 table.clickable-row tr:hover{
 	 background-color: #ccc !important;
-}*/
+	 }*/
 
-table.clickable-row tr.selected{
-	background-color: #ccc !important;
-}
+	 table.clickable-row tr.selected{
+	 	background-color: #ccc !important;
+	 }
+
+	 .pull-right{
+	 	float: right !important;
+	 }
+	 .pull-left{
+	 	float: left !important;
+	 }
