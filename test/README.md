@@ -1,3 +1,0 @@
-### Angular Documentation Example 
-
-QuickStart
