@@ -10,6 +10,7 @@ import { CompteurService } from './Services/CompteurService';
 import { ReleveService } from './Services/ReleveService';
 import { Compteur } from './model/Compteur';
 import { Releve } from './model/Releve';
+import { MainMenuComponent } from './main/main.menu.component';
 
 @NgModule({
 	imports: [
@@ -17,10 +18,9 @@ import { Releve } from './model/Releve';
 	CompteurModule,
 	CrisisCenterModule,
 	 RouterModule.forRoot([{
-        path: '',
-        redirectTo: '/Compteurs',
-        pathMatch: 'full'
-      }])
+	 	path: '', 
+	 	component: MainMenuComponent
+	 }])
 	],
 	exports: [
 	RouterModule

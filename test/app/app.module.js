@@ -15,6 +15,7 @@ const common_1 = require('@angular/common');
 const ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 const app_component_1 = require('./app.component');
 const app_routes_1 = require('./app.routes');
+const main_menu_component_1 = require('./main/main.menu.component');
 const database_1 = require('./model/database');
 const CompteurService_1 = require('./Services/CompteurService');
 const ReleveService_1 = require('./Services/ReleveService');
@@ -23,7 +24,7 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, app_routes_1.AppRoutingModule, ng_bootstrap_1.NgbModule.forRoot()],
-        declarations: [app_component_1.AppComponent],
+        declarations: [app_component_1.AppComponent, main_menu_component_1.MainMenuComponent],
         providers: [database_1.DBService, CompteurService_1.CompteurService, ReleveService_1.ReleveService, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         bootstrap: [app_component_1.AppComponent]
     }), 

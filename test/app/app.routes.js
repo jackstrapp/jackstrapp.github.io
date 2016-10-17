@@ -13,6 +13,7 @@ const router_1 = require('@angular/router');
 const app_module_1 = require('./releves_module/app.module');
 const app_module_2 = require('./compteur_module/app.module');
 const crisis_center_module_1 = require('./crisis-center/crisis-center.module');
+const main_menu_component_1 = require('./main/main.menu.component');
 let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = __decorate([
@@ -23,8 +24,7 @@ AppRoutingModule = __decorate([
             crisis_center_module_1.CrisisCenterModule,
             router_1.RouterModule.forRoot([{
                     path: '',
-                    redirectTo: '/Compteurs',
-                    pathMatch: 'full'
+                    component: main_menu_component_1.MainMenuComponent
                 }])
         ],
         exports: [
