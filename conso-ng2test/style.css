@@ -1,0 +1,45 @@
+table.clickable-row tr{
+	cursor: pointer;
+}
+/*
+table.clickable-row tr:hover{
+	 background-color: #ccc !important;
+	 }*/
+
+	 table.clickable-row tr.selected{
+	 	background-color: #ccc !important;
+	 }
+
+	 .pull-right{
+	 	float: right !important;
+	 }
+	 .pull-left{
+	 	float: left !important;
+	 }
+/*
+
+	 html, body, .fill {
+	 	width: 100%;
+	 	height: 100%;
+	 }
+	 .fill-height{height: 100%;}
+	 .fill-width{width: 100%;}
+
+	 nav.navbar {
+	 	height: 54px;
+	 }
+	 .main-window{
+	 	height: calc(100% - 54px);
+	 	margin-bottom: 0;
+	 	padding: 0;
+    	background-color: #eceeef;
+	 }
+	 .main-window > *{
+	 	width: 100%;
+	 	height: calc(100% - 20px);
+	 	padding: 10px;
+	 }
+
+
+
+*/
