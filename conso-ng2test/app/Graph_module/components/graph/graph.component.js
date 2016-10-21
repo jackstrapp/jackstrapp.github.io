@@ -76,10 +76,13 @@ let GraphComponent = class GraphComponent {
     }
     convert(datas, cpts) {
         var result = new Array();
+        let moneyColor = "#85BB65";
         let overallPrice = {
             label: "prix global",
-            fillColor: 'rgb(255, 0, 0)',
-            strokeColor: '',
+            borderColor: moneyColor,
+            backgroundColor: hexToRgba(moneyColor, 0.2),
+            pointBorderColor: moneyColor,
+            pointBorderWidth: 1,
             data: new Array(),
             tooltipUnity: '€/j'
         };

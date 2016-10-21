@@ -163,11 +163,13 @@ export class GraphComponent {
 
 	private convert(datas: Releve[], cpts: Compteur[]): scatterDataSet[]{
 		var result = new Array<scatterDataSet>();
-
+		let moneyColor = "#85BB65"
 		let overallPrice: scatterDataSet = {
 			label: "prix global",
-			fillColor: 'rgb(255, 0, 0)',
-			strokeColor: '',
+			borderColor: moneyColor,
+					backgroundColor: hexToRgba(moneyColor, 0.2),
+					pointBorderColor: moneyColor,
+					pointBorderWidth: 1,
 			data: new Array<coordinate>(),
 			tooltipUnity: '€/j'
 		};

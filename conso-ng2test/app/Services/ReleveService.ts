@@ -81,4 +81,24 @@ export class ReleveService {
 		});
 		return obs;
 	}
+
+	public delete(rel: Releve){
+		var obs = new Rx.Subject<Releve>();
+		this.get(rel.idReleve).subscribe(() => {
+			//it exists => ok
+			this.db.data.delete(rel.idReleve)
+			.then(() => {
+				obs.next();
+			})
+			.catch((error) => {
+				obs.error(error);
+			});
+		}, () => {
+			//doesn't exists
+			obs.error("le relevé id:" + rel.idReleve.toString() + " n'existe pas.");
+			//throw "le compteur id:" + cpt.idCompteur.toString() + " n'existe pas.";
+
+		});
+		return obs;
+	}
 }

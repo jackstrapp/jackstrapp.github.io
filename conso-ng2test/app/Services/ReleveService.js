@@ -80,6 +80,24 @@ let ReleveService = class ReleveService {
         });
         return obs;
     }
+    delete(rel) {
+        var obs = new Rx.Subject();
+        this.get(rel.idReleve).subscribe(() => {
+            //it exists => ok
+            this.db.data.delete(rel.idReleve)
+                .then(() => {
+                obs.next();
+            })
+                .catch((error) => {
+                obs.error(error);
+            });
+        }, () => {
+            //doesn't exists
+            obs.error("le relevé id:" + rel.idReleve.toString() + " n'existe pas.");
+            //throw "le compteur id:" + cpt.idCompteur.toString() + " n'existe pas.";
+        });
+        return obs;
+    }
 };
 ReleveService = __decorate([
     core_1.Injectable(), 

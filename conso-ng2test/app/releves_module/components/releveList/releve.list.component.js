@@ -28,6 +28,12 @@ let ReleveListComponent = class ReleveListComponent {
     get display() {
         return 'block';
     }
+    clickWatch(rel) {
+        if (confirm("do you want to delete this read?")) {
+            this.ReleveService.delete(rel);
+            this.ngOnInit();
+        }
+    }
     ngOnInit() {
         var name = null;
         this.route.params.forEach((params) => {
@@ -65,6 +71,7 @@ ReleveListComponent = __decorate([
 		<th>Date</th>
 		<th>Valeur ({{compteur?.unity}})</th>
 		<th>Commentaire</th>
+		<th>Action</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -73,6 +80,7 @@ ReleveListComponent = __decorate([
 		<td>{{rel.date | date}}</td>
 		<td>{{rel.valeur}}</td>
 		<td>{{rel.comment}}</td>
+		<td><button class="btn" (click)="clickWatch(rel)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
 		</tr>
 		</tbody>
 		</table>

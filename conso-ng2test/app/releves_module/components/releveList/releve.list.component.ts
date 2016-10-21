@@ -28,6 +28,7 @@ import { Component, OnInit, OnDestroy, HostBinding,
 		<th>Date</th>
 		<th>Valeur ({{compteur?.unity}})</th>
 		<th>Commentaire</th>
+		<th>Action</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -36,6 +37,7 @@ import { Component, OnInit, OnDestroy, HostBinding,
 		<td>{{rel.date | date}}</td>
 		<td>{{rel.valeur}}</td>
 		<td>{{rel.comment}}</td>
+		<td><button class="btn" (click)="clickWatch(rel)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
 		</tr>
 		</tbody>
 		</table>
@@ -73,6 +75,14 @@ import { Component, OnInit, OnDestroy, HostBinding,
 
 		@HostBinding('style.display') get display() {
 			return 'block';
+		}
+
+		public clickWatch(rel: Releve){
+			if(confirm("do you want to delete this read?"))
+			{
+				this.ReleveService.delete(rel);
+				this.ngOnInit();
+			}
 		}
 
 		public releves: Rx.Subject<Array<Releve>>;
