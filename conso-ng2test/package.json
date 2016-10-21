@@ -1,5 +1,5 @@
 {
-  "name": "testconfig",
+  "name": "conso-ng2test",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
@@ -13,9 +13,9 @@
     "@angular/platform-browser-dynamic": "~2.0.2",
     "@angular/router": "~3.0.2",
     "@angular/upgrade": "~2.0.2",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.7",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.8",
     "angular-in-memory-web-api": "~0.1.5",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0-alpha.5",
     "chart.js": "^2.3.0",
     "chart.js-scatter": "^1.1.4",
     "core-js": "^2.4.1",
@@ -26,6 +26,8 @@
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.39",
+    "tsc": "^1.20150623.0",
+    "typescript": "^2.0.3",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {

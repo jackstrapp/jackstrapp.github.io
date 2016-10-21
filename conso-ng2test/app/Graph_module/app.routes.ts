@@ -1,7 +1,7 @@
 import { NgModule }     from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GraphComponent } from './components/Graph/graph.component';
+import { GraphComponent } from './components/graph/graph.component';
 
 
 

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const core_1 = require('@angular/core');
 const router_1 = require('@angular/router');
-const graph_component_1 = require('./components/Graph/graph.component');
+const graph_component_1 = require('./components/graph/graph.component');
 let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = __decorate([

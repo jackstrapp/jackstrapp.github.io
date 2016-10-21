@@ -6,6 +6,21 @@ declare module 'chart.js' {
 // Definitions by: Wu Jun <wujun4code@github>
 // Typed it,enjoy it!
 
+export interface tooltipItemInterface
+{
+    // X Value of the tooltip as a string
+    xLabel: string,
+
+    // Y value of the tooltip as a string
+    yLabel: string,
+
+    // Index of the dataset the item comes from
+    datasetIndex: number,
+
+    // Index of this data item in the dataset
+    index: number
+}
+
 export class Chart  {
     constructor(ctx: CanvasRenderingContext2D, options?: any);
 

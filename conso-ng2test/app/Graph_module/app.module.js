@@ -12,13 +12,14 @@ const core_1 = require('@angular/core');
 const forms_1 = require('@angular/forms');
 const platform_browser_1 = require('@angular/platform-browser');
 const app_routes_1 = require('./app.routes');
-const graph_component_1 = require('./components/Graph/graph.component');
+const graph_component_1 = require('./components/graph/graph.component');
+const graph_config_component_1 = require('./components/graphConfig/graph.config.component');
 let GraphModule = class GraphModule {
 };
 GraphModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, app_routes_1.AppRoutingModule],
-        declarations: [graph_component_1.GraphComponent],
+        declarations: [graph_component_1.GraphComponent, graph_config_component_1.GraphConfigComponent],
         bootstrap: [graph_component_1.GraphComponent]
     }), 
     __metadata('design:paramtypes', [])

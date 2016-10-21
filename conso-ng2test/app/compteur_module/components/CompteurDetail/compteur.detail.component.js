@@ -73,17 +73,28 @@ CompteurDetailComponent = __decorate([
 	    <input name="id" required class="form-control" [ngModel]="compteur.idCompteur" readonly placeholder="id">
 	  </div>
 	   <div class="form-group">
-	    <label>name</label>
-	    <input name="name" type="text" required class="form-control" [(ngModel)]="compteur.name" placeholder="nom">
+	    <label>Name</label>
+	    <input name="name" type="text" required class="form-control" [(ngModel)]="compteur.name" placeholder="name">
 	  </div>
 	   <div class="form-group">
-	    <label>commentaire</label>
-	    <input name="comment" type="text" required class="form-control" [(ngModel)]="compteur.comment" placeholder="commentaire">
+	    <label>Comment</label>
+	    <input name="comment" type="text" required class="form-control" [(ngModel)]="compteur.comment" placeholder="water reader under sink">
 	  </div>
 	   <div class="form-group">
-	    <label>Unité</label>
-	    <input name="unity" type="text" required class="form-control" [(ngModel)]="compteur.unity" placeholder="unité">
+	    <label>Unity</label>
+	    <input name="unity" type="text" required class="form-control" [(ngModel)]="compteur.unity" placeholder="unity">
 	  </div>
+	   <div class="form-group">
+	    <label>Price (per unity)</label>
+	    <input name="price" type="number" class="form-control" [(ngModel)]="compteur.price"  placeholder="15.2$" step="0.00001">
+	  </div>
+	   <div class="form-group">
+	    <label>Color</label>
+	     <input type="color" name="color" [(ngModel)]="compteur.color">
+	     {{compteur.color}}
+	  </div>
+
+
 	  <div class="pull-right">
 		  <input type="submit" class="btn btn-success" value="Valider"/>
 		  <input type="button" class="btn btn-default" value="Annuler" (click)="gotoCompteurs()"/>

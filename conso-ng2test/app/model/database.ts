@@ -1,7 +1,6 @@
 import Dexie from "dexie";
 import { Compteur } from "./Compteur";
 import { Releve } from "./Releve";
-import { Data } from "./Data";
 import { Injectable } from '@angular/core';
 import * as rx from "rxjs";
 

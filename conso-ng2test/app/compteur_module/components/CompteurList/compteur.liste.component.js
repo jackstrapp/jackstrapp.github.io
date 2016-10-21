@@ -43,8 +43,8 @@ CompteurListComponent = __decorate([
 	            <tr>
 	                <th>id</th>
 	                <th>Nom</th>
-	                <th>Description</th>
 	                <th>Unité</th>
+	                <th>Description</th>
 	                <th>Actions</th>
 	            </tr>
 	        </thead>

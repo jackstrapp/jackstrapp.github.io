@@ -6,4 +6,7 @@ export class Compteur {
 	public name: string;
 	public comment: string;
 	public unity: string;
+	//price / unity
+	public price: number;
+	public color: string;
 }

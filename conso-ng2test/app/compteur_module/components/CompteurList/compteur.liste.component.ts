@@ -19,8 +19,8 @@ import * as Rx from 'rxjs/Rx';
 	            <tr>
 	                <th>id</th>
 	                <th>Nom</th>
-	                <th>Description</th>
 	                <th>Unité</th>
+	                <th>Description</th>
 	                <th>Actions</th>
 	            </tr>
 	        </thead>
