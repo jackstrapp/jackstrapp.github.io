@@ -29,6 +29,44 @@ let GraphConfigObjectService = class GraphConfigObjectService {
         this._Price = value;
         this.confUpdated.emit();
     }
+    conversionFilter(datas, cpt) {
+        var result = [];
+        //définition des points de la courbe du compteur
+        datas.sort((a, b) => { if (a.date > b.date)
+            return 1;
+        else
+            return -1; }).forEach((x, i, arr) => {
+            if (this.Conso) {
+                if (i) {
+                    let previousData = arr[i - 1];
+                    //nbDays between current read and the previous one
+                    let nbDays = Math.ceil(Math.abs(previousData.date.getTime() - x.date.getTime()) / (1000 * 3600 * 24));
+                    result.push({
+                        x: x.date,
+                        y: (x.valeur - previousData.valeur) * (this.Price ? cpt.price : 1) / nbDays,
+                        comment: x.comment
+                    });
+                    if (i == 1) {
+                        result[0].y = result[1].y;
+                    }
+                }
+                else
+                    result.push({
+                        x: x.date,
+                        y: 0,
+                        comment: x.comment
+                    });
+            }
+            else {
+                result.push({
+                    x: x.date,
+                    y: x.valeur,
+                    comment: x.comment
+                });
+            }
+        });
+        return result;
+    }
 };
 GraphConfigObjectService = __decorate([
     core_1.Injectable(), 

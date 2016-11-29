@@ -1,30 +1,25 @@
-import { 
+import {
 	Component, OnInit, OnDestroy, HostBinding, trigger, transition, animate, style, state, Output, EventEmitter, DoCheck
 } from '@angular/core';
 
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 
-import {Compteur} from "../../../model/Compteur";
-import {Releve} from "../../../model/Releve";
-import {CompteurService} from "../../../Services/CompteurService";
-import {ReleveService} from "../../../Services/ReleveService";
+import { Compteur } from "../../../model/Compteur";
+import { Releve } from "../../../model/Releve";
+import { CompteurService } from "../../../Services/CompteurService";
+import { ReleveService } from "../../../Services/ReleveService";
 import Dexie from "dexie";
-import * as Rx from 'rxjs/Rx';	
+import * as Rx from 'rxjs/Rx';
 
-import {GraphConfigObjectService} from "../graphConfigService/graph.config.service";
+import { GraphConfigObjectService, coordinate } from "../graphConfigService/graph.config.service";
 
-import {Chart, tooltipItemInterface} from "chart.js";
+import { Chart, tooltipItemInterface } from "chart.js";
 
-interface coordinate{
-	x: any;
-	y: any;
-	comment?: string;
-	//used when y is converted as a price
-	originalValue?: any;
-}
 
-interface scatterDataSet{
+
+interface scatterDataSet {
 	label: string;
+	hidden?: boolean;
 
 	tooltipUnity: string;
 
@@ -60,7 +55,7 @@ interface scatterDataSet{
 @Component({
 	moduleId: module.id,
 	selector: 'graph-module',
-	template: 
+	template:
 	`
 	<div class="container">
 	<div class="row"> 
@@ -94,7 +89,9 @@ export class GraphComponent {
 		(<any>Chart).defaults.global.animation = false;
 
 
-		this.config.confUpdated.subscribe(() => { this.render(); });
+		this.config.confUpdated.subscribe(() => {
+			this.updateSeries();
+		});
 
 		var canvas = <HTMLCanvasElement>document.getElementById('graphique');
 		this.ctx = canvas.getContext("2d");
@@ -107,13 +104,13 @@ export class GraphComponent {
 			tooltipTemplate: "<%= value %> - commentaire: <%= comment %>",
 			options: {
 				// // String - Template string for single tooltips
-			 //    tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
-			 //    // String - Template string for multiple tooltips
-			 //    multiTooltipTemplate: "<%= value + ' %' %>",
-			 tooltips: {
-			 	callbacks: {
-			 		title: (item: tooltipItemInterface[], data: any) => {
-			 			let datasets: scatterDataSet[] = data.datasets;
+				//    tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
+				//    // String - Template string for multiple tooltips
+				//    multiTooltipTemplate: "<%= value + ' %' %>",
+				tooltips: {
+					callbacks: {
+						title: (item: tooltipItemInterface[], data: any) => {
+							let datasets: scatterDataSet[] = data.datasets;
 							// Title doesn't make sense for scatter since we format the data as a point
 							return '';
 						},
@@ -146,105 +143,95 @@ export class GraphComponent {
 			}
 		});
 
-		this.cptService.getList().subscribe((cpts) => { 
+		this.cptService.getList().subscribe((cpts) => {
 			this.relService.getList().subscribe((rels) => {
 				this.originalCompteurs = cpts;
 				this.originalData = rels;
 				this.render();
-				
+
 			});
 		})
 	}
 
-	private render(){
-		this.chart.data.datasets = this.convert(this.originalData, this.originalCompteurs);
-		this.updateChart();
+	private updateSeries() {
+		this.chart.data.datasets.forEach((ds: scatterDataSet) => {
+			var cpt = this.originalCompteurs.find(x => x.name == ds.label);
+			if (cpt) {
+				var datas = this.originalData.filter(x => x.idCompteur == cpt.idCompteur);
+
+				ds.data = this.config.conversionFilter(datas, cpt);
+			}
+		});
+		this.chart.update();
 	}
 
-	private convert(datas: Releve[], cpts: Compteur[]): scatterDataSet[]{
-		var result = new Array<scatterDataSet>();
-		let moneyColor = "#85BB65"
+	private render() {
+		this.chart.data.datasets = this.convert(this.originalData, this.originalCompteurs);
+		this.chart.update();
+	}
+
+	private convert(datas: Releve[], cpts: Compteur[]): scatterDataSet[] {
+
+		let result = new Array<scatterDataSet>();
+		let moneyColor = "#85BB65";
 		let overallPrice: scatterDataSet = {
 			label: "prix global",
 			borderColor: moneyColor,
-					backgroundColor: hexToRgba(moneyColor, 0.2),
-					pointBorderColor: moneyColor,
-					pointBorderWidth: 1,
+			backgroundColor: hexToRgba(moneyColor, 0.2),
+			pointBorderColor: moneyColor,
+			pointBorderWidth: 1,
 			data: new Array<coordinate>(),
 			tooltipUnity: '€/j'
 		};
 
 		cpts.forEach((cpt) => {
-				//init des infos du compteur
+			//init des infos du compteur
 
-				var color = cpt.color
-				let currentScatterDataSet: scatterDataSet = {
+			let color = cpt.color
+			let currentScatterDataSet: scatterDataSet = {
 
-					label: cpt.name,
-					borderColor: color,
-					backgroundColor: hexToRgba(cpt.color, 0.2),
-					pointBorderColor: color,
-					pointBorderWidth: 1,
-					data: new Array<coordinate>(),
-					tooltipUnity: this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''))
+				label: cpt.name,
+				borderColor: color,
+				backgroundColor: hexToRgba(cpt.color, 0.2),
+				pointBorderColor: color,
+				pointBorderWidth: 1,
+				data: new Array<coordinate>(),
+				tooltipUnity: this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''))
 
-				};
+			};
 
-				//définition des points de la courbe du compteur
-				datas.filter(x => x.idCompteur == cpt.idCompteur).sort((a, b) => {if(a.date > b.date) return 1; else return -1;}).forEach((x, i, arr) => {
 
-					if(this.config.Conso){
-						if(i)
-						{
-							let previousData = arr[i-1];
-							//nbDays between current read and the previous one
-							let nbDays = Math.ceil(Math.abs(previousData.date.getTime() - x.date.getTime()) / (1000 * 3600 * 24)); 
+			//définition des points de la courbe du compteur
+			currentScatterDataSet.data = this.config.conversionFilter(datas.filter(x => x.idCompteur == cpt.idCompteur), cpt);
+			currentScatterDataSet.data.length == 0 || result.push(currentScatterDataSet);
 
-							currentScatterDataSet.data.push({
-								x: x.date,
-								y: (x.valeur - previousData.valeur) * (this.config.Price ? cpt.price : 1) / nbDays,
-								comment: x.comment
-							});
-						}
-						else
-							currentScatterDataSet.data.push({
-								x: x.date,
-								y: 0,
-								comment: x.comment
-							});
-						
-						// let existing = overallPrice.data.filter(w => w.x == x.date)[0];
-						// if(existing)
-						// 	existing.y += x.valeur * cpt.price;
-						// else
-						// 	overallPrice.data.push({
-						// 		x: x.date,
-						// 		y: x.valeur * cpt.price
-						// 	});
-					}
-					else{
-						currentScatterDataSet.data.push({
-							x: x.date,
-							y: x.valeur,
-							comment: x.comment
+		});
+
+		if (this.config.Conso && this.config.Price) {
+			let overallDatas = new Array<coordinate>();
+			result.forEach((item, index, arr) => {
+				item.data.map((item, index, arr) => {
+					var existing = overallDatas.find(x => +x.x == +item.x);
+					if (existing)
+						existing.y += item.y;
+					else
+						overallDatas.push({
+							x: item.x,
+							y: item.y
 						});
-					}
 				});
-				if ( currentScatterDataSet.data.length )
-					result.push(currentScatterDataSet);
 			});
-		if(overallPrice.data.length)
-			result.push(overallPrice);
-		
+
+			overallPrice.data = overallDatas.sort((a, b) => { if (a.x > b.x) return 1; else return -1; })
+		}
+		overallPrice.data.length == 0 || result.push(overallPrice);
+
 		//retour des courbes des compteus
 		return result;
 	}
 
-	public updateChart() {
-		this.chart.update();
-	}	
 
-	ngOnDestroy() { 
+	ngOnDestroy() {
 
 	}
 
