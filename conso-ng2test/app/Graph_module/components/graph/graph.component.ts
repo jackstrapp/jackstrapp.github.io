@@ -21,7 +21,7 @@ interface scatterDataSet {
 	label: string;
 	hidden?: boolean;
 
-	tooltipUnity: string;
+	tooltipUnity: () => string;
 
 	/* Line, Radar */
 	pointColor?: string;
@@ -116,7 +116,7 @@ export class GraphComponent {
 						},
 						label: (item: tooltipItemInterface, data: any) => {
 							let datasets: scatterDataSet[] = data.datasets;
-							let unity: string = datasets[item.datasetIndex].tooltipUnity;
+							let unity: string = datasets[item.datasetIndex].tooltipUnity();
 
 							return this.datepipe.transform(item.xLabel, 'shortDate') + ':  ' + item.yLabel + ' ' + unity;
 						}
@@ -181,7 +181,7 @@ export class GraphComponent {
 			pointBorderColor: moneyColor,
 			pointBorderWidth: 1,
 			data: new Array<coordinate>(),
-			tooltipUnity: '€/j'
+			tooltipUnity: function() { return '€/j'; }
 		};
 
 		cpts.forEach((cpt) => {
@@ -196,7 +196,7 @@ export class GraphComponent {
 				pointBorderColor: color,
 				pointBorderWidth: 1,
 				data: new Array<coordinate>(),
-				tooltipUnity: this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''))
+				tooltipUnity: () => { return this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''));}
 
 			};
 

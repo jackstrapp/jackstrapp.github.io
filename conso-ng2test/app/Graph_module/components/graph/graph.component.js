@@ -49,7 +49,7 @@ let GraphComponent = class GraphComponent {
                         },
                         label: (item, data) => {
                             let datasets = data.datasets;
-                            let unity = datasets[item.datasetIndex].tooltipUnity;
+                            let unity = datasets[item.datasetIndex].tooltipUnity();
                             return this.datepipe.transform(item.xLabel, 'shortDate') + ':  ' + item.yLabel + ' ' + unity;
                         }
                     }
@@ -96,7 +96,7 @@ let GraphComponent = class GraphComponent {
             pointBorderColor: moneyColor,
             pointBorderWidth: 1,
             data: new Array(),
-            tooltipUnity: '€/j'
+            tooltipUnity: function () { return '€/j'; }
         };
         cpts.forEach((cpt) => {
             //init des infos du compteur
@@ -108,7 +108,7 @@ let GraphComponent = class GraphComponent {
                 pointBorderColor: color,
                 pointBorderWidth: 1,
                 data: new Array(),
-                tooltipUnity: this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''))
+                tooltipUnity: () => { return this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : '')); }
             };
             //définition des points de la courbe du compteur
             currentScatterDataSet.data = this.config.conversionFilter(datas.filter(x => x.idCompteur == cpt.idCompteur), cpt);
