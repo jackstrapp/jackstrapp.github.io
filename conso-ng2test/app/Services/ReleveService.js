@@ -14,7 +14,6 @@ const Rx = require('rxjs/Rx');
 let ReleveService = class ReleveService {
     constructor(db) {
         this.db = db;
-        var x = 'toto';
     }
     getByCompteur(idCompteur) {
         var obs = new Rx.Subject();

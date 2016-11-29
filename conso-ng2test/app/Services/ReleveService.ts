@@ -6,8 +6,8 @@ import * as Rx from 'rxjs/Rx';
 @Injectable()
 export class ReleveService {
 	constructor(public db: DBService){
-		var x = 'toto';
 	}
+
 	public getByCompteur(idCompteur: number){
 		var obs = new Rx.Subject<Releve[]>();
 		var data = new Array<Releve>();
@@ -101,4 +101,5 @@ export class ReleveService {
 		});
 		return obs;
 	}
+
 }
