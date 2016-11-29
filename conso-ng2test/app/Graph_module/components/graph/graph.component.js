@@ -24,7 +24,9 @@ let GraphComponent = class GraphComponent {
     ngOnInit() {
         chart_js_1.Chart.defaults.global.responsive = true;
         chart_js_1.Chart.defaults.global.animation = false;
-        this.config.confUpdated.subscribe(() => { this.render(); });
+        this.config.confUpdated.subscribe(() => {
+            this.updateSeries();
+        });
         var canvas = document.getElementById('graphique');
         this.ctx = canvas.getContext("2d");
         this.chart = new chart_js_1.Chart(this.ctx, {
@@ -70,12 +72,22 @@ let GraphComponent = class GraphComponent {
             });
         });
     }
+    updateSeries() {
+        this.chart.data.datasets.forEach((ds) => {
+            var cpt = this.originalCompteurs.find(x => x.name == ds.label);
+            if (cpt) {
+                var datas = this.originalData.filter(x => x.idCompteur == cpt.idCompteur);
+                ds.data = this.config.conversionFilter(datas, cpt);
+            }
+        });
+        this.chart.update();
+    }
     render() {
         this.chart.data.datasets = this.convert(this.originalData, this.originalCompteurs);
-        this.updateChart();
+        this.chart.update();
     }
     convert(datas, cpts) {
-        var result = new Array();
+        let result = new Array();
         let moneyColor = "#85BB65";
         let overallPrice = {
             label: "prix global",
@@ -88,7 +100,7 @@ let GraphComponent = class GraphComponent {
         };
         cpts.forEach((cpt) => {
             //init des infos du compteur
-            var color = cpt.color;
+            let color = cpt.color;
             let currentScatterDataSet = {
                 label: cpt.name,
                 borderColor: color,
@@ -99,46 +111,31 @@ let GraphComponent = class GraphComponent {
                 tooltipUnity: this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''))
             };
             //définition des points de la courbe du compteur
-            datas.filter(x => x.idCompteur == cpt.idCompteur).sort((a, b) => { if (a.date > b.date)
+            currentScatterDataSet.data = this.config.conversionFilter(datas.filter(x => x.idCompteur == cpt.idCompteur), cpt);
+            currentScatterDataSet.data.length == 0 || result.push(currentScatterDataSet);
+        });
+        if (this.config.Conso && this.config.Price) {
+            let overallDatas = new Array();
+            result.forEach((item, index, arr) => {
+                item.data.map((item, index, arr) => {
+                    var existing = overallDatas.find(x => +x.x == +item.x);
+                    if (existing)
+                        existing.y += item.y;
+                    else
+                        overallDatas.push({
+                            x: item.x,
+                            y: item.y
+                        });
+                });
+            });
+            overallPrice.data = overallDatas.sort((a, b) => { if (a.x > b.x)
                 return 1;
             else
-                return -1; }).forEach((x, i, arr) => {
-                if (this.config.Conso) {
-                    if (i) {
-                        let previousData = arr[i - 1];
-                        //nbDays between current read and the previous one
-                        let nbDays = Math.ceil(Math.abs(previousData.date.getTime() - x.date.getTime()) / (1000 * 3600 * 24));
-                        currentScatterDataSet.data.push({
-                            x: x.date,
-                            y: (x.valeur - previousData.valeur) * (this.config.Price ? cpt.price : 1) / nbDays,
-                            comment: x.comment
-                        });
-                    }
-                    else
-                        currentScatterDataSet.data.push({
-                            x: x.date,
-                            y: 0,
-                            comment: x.comment
-                        });
-                }
-                else {
-                    currentScatterDataSet.data.push({
-                        x: x.date,
-                        y: x.valeur,
-                        comment: x.comment
-                    });
-                }
-            });
-            if (currentScatterDataSet.data.length)
-                result.push(currentScatterDataSet);
-        });
-        if (overallPrice.data.length)
-            result.push(overallPrice);
+                return -1; });
+        }
+        overallPrice.data.length == 0 || result.push(overallPrice);
         //retour des courbes des compteus
         return result;
-    }
-    updateChart() {
-        this.chart.update();
     }
     ngOnDestroy() {
     }
