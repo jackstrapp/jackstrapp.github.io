@@ -96,7 +96,9 @@ let GraphComponent = class GraphComponent {
             pointBorderColor: moneyColor,
             pointBorderWidth: 1,
             data: new Array(),
-            tooltipUnity: function () { return '€/j'; }
+            tooltipUnity: function () {
+                return '€/j';
+            }
         };
         cpts.forEach((cpt) => {
             //init des infos du compteur
@@ -108,7 +110,9 @@ let GraphComponent = class GraphComponent {
                 pointBorderColor: color,
                 pointBorderWidth: 1,
                 data: new Array(),
-                tooltipUnity: () => { return this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : '')); }
+                tooltipUnity: () => {
+                    return this.config.Conso && this.config.Price ? ("€/J") : (cpt.unity.trim() + (this.config.Conso ? '/J' : ''));
+                }
             };
             //définition des points de la courbe du compteur
             currentScatterDataSet.data = this.config.conversionFilter(datas.filter(x => x.idCompteur == cpt.idCompteur), cpt);
