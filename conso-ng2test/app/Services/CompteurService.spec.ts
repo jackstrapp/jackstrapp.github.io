@@ -1,19 +1,52 @@
 
-
-import {JsonPipe} from "@angular/common";
-
-
-describe('CompteurService', function(){
-
-let pipe = new JsonPipe();
-
-  it('transforms {"abc": 2} to "{\"abc\": 2}"', () => {
-    expect(pipe.transform({"abc": 2})).toBe("{\"abc\": 2}");
-  }); 
+import { TestBed, ComponentFixture } from '@angular/core/testing'
+import { By }              from '@angular/platform-browser';
+import { DebugElement, Component }    from '@angular/core';
+import { CompteurDetailComponent } from '../compteur_module/components/CompteurDetail/compteur.detail.component'
 
 
- it('true is true', () => expect(true).toBe(true));
 
 
+@Component({
+  selector: 'app-banner',
+  template: '<h1>{{title}}</h1>'
+})
+export class BannerComponent {
+  title = 'Test Tour of Heroes';
+}
+
+
+
+describe('1st tests', () => {
+  let fixture: ComponentFixture<BannerComponent>, comp: BannerComponent;
+
+  beforeEach(() => {
+
+    // refine the test module by declaring the test component
+    TestBed.configureTestingModule({
+      declarations: [BannerComponent],
+    });
+
+    // create component and test fixture
+    fixture = TestBed.createComponent(BannerComponent);
+
+    // get test component from the fixture
+    comp = fixture.componentInstance;
+  });
+
+  it('should display original title', () => {
+  // trigger change detection to update the view
+  fixture.detectChanges();
+
+  // query for the title <h1> by CSS element selector
+  let de = fixture.debugElement.query(By.css('h1'));
+
+  // confirm the element's content
+  expect(de.nativeElement.textContent).toContain(comp.title);
+
+  });
+
+
+  it('true is true', () => expect(true).toBe(true));
 
 });

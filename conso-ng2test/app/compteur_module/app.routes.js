@@ -18,16 +18,6 @@ AppRoutingModule = __decorate([
     core_1.NgModule({
         imports: [
             router_1.RouterModule.forRoot([
-                // {path: 'Compteurs', component: CompteurListComponent, children: [
-                // 	{
-                //               path: ':id',
-                //               component: CompteurDetailComponent
-                //             },
-                //             {
-                //               path: '',
-                //               component: CompteurDetailEmptyComponent
-                //             }
-                // ]}
                 { path: 'Compteurs', component: compteur_liste_component_1.CompteurListComponent },
                 { path: 'Compteurs/:id', component: compteur_detail_component_1.CompteurDetailComponent }
             ])],

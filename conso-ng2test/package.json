@@ -28,11 +28,11 @@
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.39",
-    "tsc": "2.0.10",
     "typescript": "^2.0.10",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
+    "@angular/testing": "0.0.0-0",
     "browserify": "^13.1.0",
     "canonical-path": "0.0.2",
     "concurrently": "^3.0.0",
@@ -54,10 +54,14 @@
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "webdriver-manager": "10.2.5",
+    "@types/node": "^6.0.46",
+    "@types/jasmine": "^2.5.36",
+    "@types/selenium-webdriver": "^2.53.33"
   },
   "scripts": {
-    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
+    "test": "karma start karma.conf.js",
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" "
   },
   "author": "",
